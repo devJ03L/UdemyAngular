@@ -1,1 +1,49 @@
-<p>ver-pais works!</p>
+<div 
+    class="alert alert-info"
+    *ngIf="!pais; else divPais"
+    >Espere
+</div>
+
+<ng-template #divPais>
+    <div class="row">
+        <div class="col-12">
+            <h1>Pais: <small>{{pais.name.common}}</small></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <h3>Bandera</h3>
+            <img [src]="pais.flags.png" alt="Bandera" class="img-thumbnail">
+        </div>
+        <div class="col">
+            <h3>Informacion</h3>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <strong>Poblacion: </strong>
+                    {{pais.population | number}}
+                </li>
+                <li class="list-group-item">
+                    <strong>Codigo: </strong>
+                    {{pais.cca3}}
+                </li>
+                <li class="list-group-item">
+                    <strong>Capital: </strong>
+                    {{pais.capital[0]}}
+                </li>
+            </ul>
+        </div>
+    </div>
+    <h3>Traducciones</h3>
+    <div class="row">
+        <div class="col">
+            <span class="badge bg-primary mr-1">{{pais.translations['ara'].common}}</span>
+            <span class="badge bg-primary mr-1">{{pais.translations['kor'].common}}</span>
+            <span class="badge bg-primary mr-1">{{pais.translations['per'].common}}</span>
+            <span class="badge bg-primary mr-1">{{pais.translations['jpn'].common}}</span>
+            <span class="badge bg-primary mr-1">{{pais.translations['zho'].common}}</span>
+        </div>
+    </div>
+    <pre class="mt-5">
+        {{pais | json}}
+    </pre>
+</ng-template>
