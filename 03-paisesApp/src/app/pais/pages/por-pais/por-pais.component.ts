@@ -13,21 +13,41 @@ export class PorPaisComponent {
   hayError: boolean = false
   paises: Pais[] = []
 
-  constructor(private paisService: PaisService){}
+  paisesSugeridos: Pais[] = [];
+  mostrarSugerencias: boolean = false;
 
-  buscar(termino: string){
+  constructor(private paisService: PaisService) { }
+
+  buscar(termino: string) {
+    this.mostrarSugerencias = false;
     this.termino = termino
-    this.hayError=false
+    this.hayError = false
 
     this.paisService.buscarPais(this.termino)
-    .subscribe({
-      next: paises => {
-        this.paises = paises     
-      },
-      error: err=> {
-        this.hayError=true
-        this.paises=[]
-      }
-    })
+      .subscribe({
+        next: paises => {
+          this.paises = paises
+        },
+        error: err => {
+          this.hayError = true
+          this.paises = []
+        }
+      })
+  }
+
+  sugerencias(termino: string) {
+    this.hayError = false;
+    this.termino = termino;
+    this.mostrarSugerencias = true;
+
+    this.paisService.buscarPais(termino)
+      .subscribe({
+        next: paises => this.paisesSugeridos = paises.splice(0, 5),
+        error: err => this.paisesSugeridos = []
+      });
+  }
+
+  buscarSugerido(termino: string) {
+    this.buscar(termino);
   }
 }
